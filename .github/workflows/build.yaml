@@ -1,21 +1,28 @@
 name: Build and Publish Image
 
 on:
-  schedule:
-    - cron: '39 10 * * *'
   push:
-    branches: [ main ]
-    # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
   pull_request:
-    branches: [ main ]
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'  # every day at midnight
 
 jobs:
-  publish:
-    runs-on: ubuntu-latest
+  build:
+    name: Build image using Buildah
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [ amd64, arm64v8 ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Install qemu dependency
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-user-static
 
       - name: Build Image
         id: build-image
@@ -23,6 +30,7 @@ jobs:
         with:
           image: container_nextcloud
           tags: latest
+          arch: ${{ matrix.arch }}
           oci: true
           dockerfiles: ./Containerfile
 
