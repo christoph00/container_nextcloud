@@ -1,1 +1,1 @@
-FROM docker.io/library/nextcloud:fpm-alpine
+FROM docker.io/library/nextcloud:apache
