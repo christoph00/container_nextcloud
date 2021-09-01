@@ -32,7 +32,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           image: container_nextcloud
-          tags: latest
+          tags: latest-${{ matrix.arch }}
           archs: ${{ matrix.arch }}
           oci: true
           dockerfiles: ./Containerfile
