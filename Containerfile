@@ -141,4 +141,4 @@ EXPOSE 8888
 LABEL description="A server software for creating file hosting services" \
       nextcloud="Nextcloud v${NEXTCLOUD_VERSION}" \
 
-CMD ["/usr/local/bin/run.sh"]
+#CMD "/usr/local/bin/run.sh"
