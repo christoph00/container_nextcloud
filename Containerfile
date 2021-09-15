@@ -11,7 +11,7 @@ ARG GID=1000
 # ---------------------------------------------------
 
 ### Build PHP base
-FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} as base
+FROM docker.io/library/php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} as base
 
 ARG APCU_VERSION
 ARG REDIS_VERSION
@@ -75,7 +75,8 @@ RUN apk --no-cache add build-base git gnupg && cd /tmp \
 
 
 ### Fetch nginx
-FROM nginx:${NGINX_VERSION}-alpine as nginx
+FROM docker.io/library/nginx:${NGINX_VERSION}-alpine as nginx
+
 
 
 ### Build Nextcloud (production environemnt)
@@ -140,4 +141,4 @@ EXPOSE 8888
 LABEL description="A server software for creating file hosting services" \
       nextcloud="Nextcloud v${NEXTCLOUD_VERSION}" \
 
-CMD ["run.sh"]
+CMD ["/usr/local/bin/run.sh"]
